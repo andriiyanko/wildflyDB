@@ -62,4 +62,10 @@ public class DepartmentController {
         Department newDepartment = departmentService.saveDepartment(new Department(department.getName(), department.getAddress(), department.getCode()));
         return new ResponseEntity<>(newDepartment, HttpStatus.CREATED);
     }
+
+    @PutMapping("/departments/{id}")
+    public ResponseEntity<Department> updateDepartment(@PathVariable("id") Integer id, @RequestBody Department department){
+        Department updateDepartment = departmentService.updateDepartment(id, department);
+        return new ResponseEntity<>(updateDepartment, HttpStatus.OK);
+    }
 }
