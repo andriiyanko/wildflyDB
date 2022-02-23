@@ -3,14 +3,14 @@ package com.example.andy.wildflydb.controllers;
 
 import com.example.andy.wildflydb.persistence.dao.services.interfaces.IDepartmentService;
 import com.example.andy.wildflydb.persistence.model.Department;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api")
 public class DepartmentController {
@@ -22,6 +22,7 @@ public class DepartmentController {
 
     @GetMapping("/departments")
     public ResponseEntity<List<Department>> getAllDepartments() {
+        log.info("Inside getAllDepartments method of DepartmentController");
         try {
             List<Department> departments = departmentService.findAllDepartments();
             if (departments.isEmpty()) {
@@ -32,5 +33,33 @@ public class DepartmentController {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/departments/{id}")
+    public ResponseEntity<Department> getDepartmentById(@PathVariable("id") Integer id){
+        log.info("Inside getDepartmentById method of DepartmentController");
+        Department department = departmentService.findDepartmentById(id);
+        return new ResponseEntity<>(department, HttpStatus.OK);
+    }
+
+    @GetMapping("/departments/name/{name}")
+    public ResponseEntity<List<Department>> getDepartmentByName(@PathVariable("name") String name){
+        log.info("Inside getDepartmentByName method of DepartmentController");
+        List<Department> departments = departmentService.findDepartmentByName(name);
+        return new ResponseEntity<>(departments, HttpStatus.OK);
+    }
+
+    @GetMapping("/departments/address/{address}")
+    public ResponseEntity<List<Department>> getDepartmentByAddress(@PathVariable("address") String address){
+        log.info("Inside getDepartmentByAddress method of DepartmentController");
+        List<Department> departments = departmentService.findDepartmentByAddress(address);
+        return new ResponseEntity<>(departments, HttpStatus.OK);
+    }
+
+    @PostMapping("/departments")
+    public ResponseEntity<Department> createDepartment(@RequestBody Department department){
+        log.info("Inside createDepartment method of DepartmentController");
+        Department newDepartment = departmentService.saveDepartment(new Department(department.getName(), department.getAddress(), department.getCode()));
+        return new ResponseEntity<>(newDepartment, HttpStatus.CREATED);
     }
 }
