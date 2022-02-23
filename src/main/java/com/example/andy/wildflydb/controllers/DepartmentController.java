@@ -68,4 +68,17 @@ public class DepartmentController {
         Department updateDepartment = departmentService.updateDepartment(id, department);
         return new ResponseEntity<>(updateDepartment, HttpStatus.OK);
     }
+
+    @DeleteMapping("/departments/{id}")
+    public ResponseEntity<HttpStatus> deleteDepartmentById(@PathVariable("id") Integer id){
+        try {
+            departmentService.deleteDepartmentById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
 }
