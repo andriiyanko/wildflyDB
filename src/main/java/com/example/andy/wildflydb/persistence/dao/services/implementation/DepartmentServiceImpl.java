@@ -69,4 +69,16 @@ public class DepartmentServiceImpl implements IDepartmentService {
         log.info("Inside saveDepartment method of DepartmentServiceImpl");
         return departmentRepository.save(department);
     }
+
+    @Override
+    public Department updateDepartment(Integer id, Department departmentRequest) {
+        Department department = departmentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found department by id " + id));
+
+        department.setName(departmentRequest.getName());
+        department.setAddress(departmentRequest.getAddress());
+        department.setCode(departmentRequest.getCode());
+
+        return departmentRepository.save(department);
+    }
 }
