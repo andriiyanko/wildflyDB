@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface IDepartmentService {
     List<Department> findAllDepartments();
+    Department findDepartmentById(Integer id);
+    List<Department> findDepartmentByName(String name);
+    List<Department> findDepartmentByAddress(String address);
+    Department saveDepartment(Department department);
 }
