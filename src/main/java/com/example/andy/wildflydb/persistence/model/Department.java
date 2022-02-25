@@ -1,11 +1,13 @@
 package com.example.andy.wildflydb.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -29,6 +31,10 @@ public class Department {
 
     @NotBlank(message = "code is mandatory")
     private String code;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<User> users;
 
     public Department(String name, String address, String code) {
         this.name = name;
