@@ -66,6 +66,7 @@ public class DepartmentController {
 
     @PutMapping("/departments/{id}")
     public ResponseEntity<Department> updateDepartment(@PathVariable("id") Integer id, @Valid @RequestBody Department department){
+        log.info("Inside updateDepartment method of DepartmentController");
         Department updateDepartment = departmentService.updateDepartment(id, department);
         return new ResponseEntity<>(updateDepartment, HttpStatus.OK);
     }
