@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 
@@ -18,12 +20,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank(message = "Field first name is mandatory")
     @Column(name = "first_name")
     private String firstName;
 
+    @NotBlank(message = "Field last name is mandatory")
     @Column(name = "last_name")
     private String lastName;
 
+    @NotBlank(message = "Field email is mandatory")
+    @Email(message = "Input email format is invalid. Must be xxxxxx@xxx.xxx")
     private String email;
 
     @JoinColumn(name = "department_id")

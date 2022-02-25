@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -55,7 +56,7 @@ public class UserController {
     }
 
     @PostMapping("/departments/{id}/users")
-    public ResponseEntity<User> createUser(@PathVariable("id") Integer departmentId, @RequestBody User userRequest){
+    public ResponseEntity<User> createUser(@PathVariable("id") Integer departmentId, @Valid @RequestBody User userRequest){
         log.info("Inside createUser method of UserController");
         Department department = departmentService.findDepartmentById(departmentId);
         User newUser = new User(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getEmail());
@@ -65,7 +66,7 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") Integer id, @RequestBody User userRequest){
+    public ResponseEntity<User> updateUser(@PathVariable("id") Integer id, @Valid @RequestBody User userRequest){
         log.info("Inside updateUser method of UserController");
         User user = userService.updateUser(id, userRequest);
         return new ResponseEntity<>(user, HttpStatus.OK);
