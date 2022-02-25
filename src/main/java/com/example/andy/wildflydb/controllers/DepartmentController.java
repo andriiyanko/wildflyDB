@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -57,14 +58,14 @@ public class DepartmentController {
     }
 
     @PostMapping("/departments")
-    public ResponseEntity<Department> createDepartment(@RequestBody Department department){
+    public ResponseEntity<Department> createDepartment( @Valid @RequestBody Department department){
         log.info("Inside createDepartment method of DepartmentController");
         Department newDepartment = departmentService.saveDepartment(new Department(department.getName(), department.getAddress(), department.getCode()));
         return new ResponseEntity<>(newDepartment, HttpStatus.CREATED);
     }
 
     @PutMapping("/departments/{id}")
-    public ResponseEntity<Department> updateDepartment(@PathVariable("id") Integer id, @RequestBody Department department){
+    public ResponseEntity<Department> updateDepartment(@PathVariable("id") Integer id, @Valid @RequestBody Department department){
         Department updateDepartment = departmentService.updateDepartment(id, department);
         return new ResponseEntity<>(updateDepartment, HttpStatus.OK);
     }
@@ -78,7 +79,5 @@ public class DepartmentController {
         catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-
     }
 }
